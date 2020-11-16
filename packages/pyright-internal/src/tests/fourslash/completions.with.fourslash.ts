@@ -4,23 +4,27 @@
 //// from unittest.mock import patch
 //// def some_func():
 ////     pass
-//// with patch('some_func') as[|/*marker1*/|] a1:
+//// with patch[|/*marker1*/|]('some_func'):
 ////     pass
-//// with patch('some_func') as   [|/*marker2*/|] a1:
+//// with patch('some_func') as[|/*marker2*/|] a1:
 ////     pass
-//// with patch('some_func') as a[|/*marker3*/|]2:
+//// with patch('some_func') as   [|/*marker3*/|] a1:
 ////     pass
-//// with patch[|/*marker4*/|]('some_func'):
+//// with patch('some_func') as a[|/*marker4*/|]2:
 ////     pass
-
-// @ts-ignore
-await helper.verifyCompletion('exact', 'markdown', {
-    marker1: { completions: [] },
-    marker2: { completions: [] },
-    marker3: { completions: [] },
-});
+//// with patch('some_func') as a3, \
+////         patch('some_func') as [|/*marker5*/|]a4:
+////     pass
 
 // @ts-ignore
 await helper.verifyCompletion('included', 'markdown', {
-    marker4: { completions: [{ label: 'patch', kind: Consts.CompletionItemKind.Variable }] },
+    marker1: { completions: [{ label: 'patch', kind: Consts.CompletionItemKind.Variable }] },
+});
+
+// @ts-ignore
+await helper.verifyCompletion('exact', 'markdown', {
+    marker2: { completions: [] },
+    marker3: { completions: [] },
+    marker4: { completions: [] },
+    marker5: { completions: [] },
 });
